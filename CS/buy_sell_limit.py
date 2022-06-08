@@ -50,12 +50,6 @@ def buy_limit(acct,qty,ticker,price,auth):
 auth = OAuth1(consumer_key, consumer_secret, oath_token, oath_token_secret)
 
 
-# GET streaming quotes: stream only return when there is changes in real price?
-
-# quotes_url = f"https://devapi-stream.invest.ally.com/v1/market/quotes.json?symbols={ticker}"
-# quotes_res = requests.get(quotes_url, auth=auth)
-# order_json = json.loads(quotes_res.content.decode('utf-8'))
-
 quotes = get_quotes(ticker,auth)
 bid_p = quotes.get('bid')
 

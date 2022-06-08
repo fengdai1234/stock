@@ -9,21 +9,47 @@ import numpy as np
 from requests_oauthlib import OAuth1
 import xml.etree.ElementTree as et
 from func.credentials import *
-from func.order import Order, Quote
+from func.order import Order
+from func.option import Option
+from func.quote import Quote
 from func.orderfunc import get_order_list, cancel_order
-
+from datetime import datetime, timezone
+import pytz
 
 # trad, ind, roth
-# 1.get quotes
+# 1.get option expiration date and strike price
 auth = OAuth1(consumer_key, consumer_secret, oath_token, oath_token_secret)
-ticker = 'baba'
-order_date = '20220506'
-put_call = 'call'
-strike = '100'
+ticker = 'BABA'
+# put_call = 'call'
+# order_date = '20220506'
+# strike = '100'
 
-quote  = Quote()
-option_quotes = quote.get_opt_quotes(ticker=ticker,strike=strike,xdate=order_date,put_call=put_call)
+# 1.1:get market quotes for a stock
+quote = Quote()
+# quote.get_streaming_quotes(ticker)
+startdate = '2022-04-06'
+enddate = '2022-04-07'
+time_sales = quote.timesales(ticker,startdate,enddate)
+len(time_sales)
+
+est = pytz.timezone('US/Eastern')
+time = time_sales[1].get('datetime')
+a = datetime.fromisoformat(time[:-1]).astimezone(est)
+
+print(a.hour,":",a.minute)
+
+
+# 1.2: figure out near the money strike price
+option  = Option()
+strike_list = option.search_option_strike(ticker)
+len(strike_list)
+
+# 1.2: upcoming expire date
+expiration_list = option.search_option_expirations(ticker)
+
+option_quotes = option.search_option_quotes(ticker=ticker,strike=strike,xdate=order_date,put_call=put_call)
 option_quotes
+
 
 strike_list = ['100','101','102']
 acct = trad
