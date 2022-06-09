@@ -3,6 +3,8 @@ from requests_oauthlib import OAuth1
 from func.credentials import *
 import requests
 import json
+import collections
+from datetime import datetime, date
 
 class Option:
     # %20: space in XML
@@ -36,3 +38,22 @@ class Option:
         option_list = json.loads(option_res.content.decode('utf-8')).get('response').get('quotes').get('quote')
 
         return option_list
+        
+        # 1.3: find upcoming expire date
+    def get_close_exp_date(self,ticker,close_order):
+        expiration_list = self.search_option_expirations(ticker)
+        # get all differences with date as values 
+        expiration_datelist = [datetime.strptime(dat, '%Y-%m-%d').date()for dat in expiration_list]
+        cloz_dict = {dat - date.today(): dat  for dat in expiration_datelist}
+        # extracting minimum key using min()
+        ordered_cloz_date = collections.OrderedDict(cloz_dict.items())
+        # 1.3.2: get the second nearest exp date:
+        closest_exp_date = cloz_dict[list(ordered_cloz_date.keys())[close_order]]
+
+        # printing result
+        print("second Nearest date from list : " + str(closest_exp_date))
+        close_exp_date = closest_exp_date.strftime('%Y%m%d')
+        # close_exp_date = '20220617'
+        
+        return close_exp_date
+

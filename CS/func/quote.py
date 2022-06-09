@@ -3,6 +3,7 @@ from requests_oauthlib import OAuth1
 from func.credentials import *
 import requests
 import json
+from datetime import date, timedelta
 
 # GET streaming quotes: stream only return when there is changes in real price?
 class Quote:
@@ -25,4 +26,14 @@ class Quote:
         time_sales = json.loads(quotes_res.content.decode('utf-8')).get('response').get('quotes').get('quote')
 
         return time_sales
-    
+        
+        #  1.2.2: find yesteraday's last sale
+    def get_yesterday_close_price(self,ticker):
+        yesterday = (date.today() - timedelta(1)).strftime('%Y-%m-%d')
+        today = date.today().strftime('%Y-%m-%d')
+        # datetime.strptime(today, '%Y-%m-%d').date()
+        time_sales = self.timesales(ticker,yesterday,today)
+        len(time_sales)
+        last_price = float(time_sales[-1].get('last'))
+        
+        return last_price

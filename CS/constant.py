@@ -1,0 +1,10 @@
+# Chinese tech stock ticker:
+'DIDI'
+'BIDU'
+'BABA'
+'JD'
+'BEKE'
+'LI'
+'EDU'
+'NIO'
+'TME'
