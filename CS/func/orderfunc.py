@@ -104,11 +104,12 @@ def get_order_list(acct,auth):
     order_res = requests.get(order_url, auth=auth)
     order_json = json.loads(order_res.content.decode('utf-8'))
     order_xml = order_json.get('response').get('orderstatus').get('order')
-    order_list = []
-    for order in order_xml:
-        o = order.get('fixmlmessage') 
-        root = et.fromstring(o)
     
+    order_list = []
+    if len(order_xml) == 1:
+        o = order_xml.get('fixmlmessage')
+        root = et.fromstring(o)
+        
         for child in root:
             order_dic = child.attrib
             order_dic.update(child[0].attrib)
@@ -117,16 +118,19 @@ def get_order_list(acct,auth):
 
             if order_dic.get('Txt') != 'Canceled by user':
                 order_list.append(order_dic)
+        
+    elif len(order_xml) > 1:
+        for order in order_xml:
+            o = order.get('fixmlmessage') 
+            root = et.fromstring(o)
+        
+            for child in root:
+                order_dic = child.attrib
+                order_dic.update(child[0].attrib)
+                order_dic.update(child[1].attrib)
+                order_dic.update(child[2].attrib)
+
+                if order_dic.get('Txt') != 'Canceled by user':
+                    order_list.append(order_dic)
 
     return order_list
-    
-
-
-# GET market quotes:
-def get_quotes(ticker,auth):
-    quotes_url = f"https://devapi.invest.ally.com/v1/market/ext/quotes.json?symbols={ticker}"
-    quotes_res = requests.get(quotes_url, auth=auth)
-    quotes_json = json.loads(quotes_res.content.decode('utf-8')).get('response').get('quotes').get('quote')
-    quotes_json.keys()
-    
-    return quotes_json

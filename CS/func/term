@@ -1,0 +1,10 @@
+Data 	Data Description
+chg	    Change since prior day close (cl)
+last	Last trade price
+name	Company name
+pchg	percentage change from prior day close
+pcls	Prior day close
+rank	Rank within list returned
+symbol	Ticker symbol
+vl	    Today's cumulative volume
+
