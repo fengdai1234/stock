@@ -5,6 +5,7 @@ import numpy as np
 from requests_oauthlib import OAuth1
 from func.credentials import *
 
+acct = roth
 ticker = 'BABA'
 
 # auth:
@@ -13,18 +14,45 @@ acct_url = "https://devapi.invest.ally.com/v1/accounts.json"
 acct_res = requests.get(acct_url, auth=auth)
 acct_json = json.loads(acct_res.content.decode('utf-8'))
 
-acct_json.get('response').get('error') 
-acct_json.get('response').get('@id')
-acct_json.get('response').get('elapsedtime')
 
 # get all account holding info
+# 1: traditional acct: 0 in the list
 acct_pos_list = acct_json.get('response').get('accounts').get('accountsummary')
-type(acct_pos_list)
-acct_pos_list[0]
+acct_pos_list[0].keys()
+acct_num = acct_pos_list[0].get('account')
+
+acct_pos_list[0].get('accountbalance').keys()
+acct_pos_list[0].get('accountbalance').get('accountvalue')
+acct_pos_list[0].get('accountbalance').get('fedcall')
+acct_pos_list[0].get('accountbalance').get('housecall')
+acct_pos_list[0].get('accountbalance').get('money')
+
+buyingpower = acct_pos_list[0].get('accountbalance').get('buyingpower')
+# buying power of this acct
+cash = buyingpower.get('cashavailableforwithdrawal')
+daytrading = buyingpower.get('daytrading')
+
+# Holding value for each cagtegory
+security = acct_pos_list[0].get('accountbalance').get('securities')
+security.get('longoptions')
+security.get('longstocks')
+
+# get acct activity history:
+hist_url = f"https://devapi.invest.ally.com/v1/accounts/{acct}/history.xml"
+
+
+acct_pos_list[0].get('accountholdings')
 len(acct_pos_list)
 
+acct_json.get('response').get('accounts').keys()
 
-# GET balances:
+
+# 2: roth acct
+acct_pos_list[2].get('account')
+acct_pos_list[1].get('accountbalance')
+
+
+# GET accounts balances:
 acct_bal_url = "https://devapi.invest.ally.com/v1/accounts/balances.json"
 bal_res = requests.get(acct_bal_url, auth=auth)
 bal_json = json.loads(bal_res.content.decode('utf-8'))
@@ -35,6 +63,7 @@ market_clock = f"https://devapi.invest.ally.com/v1/market/clock.json"
 order_res = requests.get(market_clock, auth=auth)
 market_clock_json = json.loads(order_res.content.decode('utf-8'))
 market_clock_json.get('response').get('status')
+
 
 # GET market news:
 market_news = f"https://devapi.invest.ally.com/v1/market/news/search.json?symbols={ticker}&maxhits=15"

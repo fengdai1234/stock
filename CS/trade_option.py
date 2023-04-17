@@ -23,8 +23,8 @@ from func.utility import closest_value
 # trad, ind, roth
 # 1.get option expiration date and strike price
 auth = OAuth1(consumer_key, consumer_secret, oath_token, oath_token_secret)
-ticker = 'BABA'
-put_call = 'call'
+ticker = 'EDU'
+put_call = 'put'
 # strike_date = '20220506'
 # strike = '100'
 
@@ -36,13 +36,13 @@ quote = Quote()
 quote.timesales(ticker,date.today().strftime('%Y-%m-%d'),(date.today() - timedelta(-1)).strftime('%Y-%m-%d'))
 
 last_price = quote.get_yesterday_close_price(ticker)
-last_price = 107
+last_price = 19
 
 # 1.2: figure out near the money strike price
 # 1.2.1: get option strike list to int
 option  = Option()
 strike_list = option.search_option_strike(ticker)
-strike_int_list = [int(float(i)) for i in strike_list]
+strike_int_list = [(float(i)) for i in strike_list]
 
  
 # TODO: how to get the premarket price
@@ -73,17 +73,21 @@ acct = roth
     # len(option_quotes)
 # option_quotes.keys()
 # 3.get today's order list
+
 order_list = get_order_list(acct=acct,auth=auth)
 valid_orders = [order for order in order_list if order.get('Stat') not in ('4','8')]
 valid_orders
 
 # 2. trade buy call option
+put_call = 'pul'
 qty = '10'
 CFI = 'OC' # OC : call, OP: put
-side = '1' # "1" ‐ Buy, "2" ‐ Sell, "5" ‐ Sell Short
+side = '2' # "1" ‐ Buy, "2" ‐ Sell, "5" ‐ Sell Short
 type =  '2' # "1" ‐ Market, "2" ‐ Limit", "3" ‐ Stop, or "4" - Stop Limit.
 # limit_price = '1.07'
-limit_price = (float(option_quotes.get('ask')) + float(option_quotes.get('bid')))/2
+# limit_price = (float(option_quotes.get('ask')) + float(option_quotes.get('bid')))/2
+# limit_price = 5
+# limit_price=3.95
 PosEfct = 'O' # option legs require and attribute of "O" for opening or "C" for closing.
 SecTyp = 'OPT' # "CS" for common stock or "OPT" for option.
 # TODO: convert date to format below:
@@ -121,7 +125,7 @@ option_quotes.get('opn')
 option_quotes.get('xdate')
 
 # 3. get the current option orders:
-current_order = get_order_list(acct=trad,auth=auth)
+current_order = get_order_list(acct=roth,auth=auth)
 len(current_order)
 current_order
 current_order[0]
