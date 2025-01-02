@@ -1,7 +1,7 @@
 import requests
 import json
 from requests_oauthlib import OAuth1
-from func.credentials import *
+from func import AccountNumber, Secret
 from func.orderfunc import get_order_list
 # auth:
 auth = OAuth1(consumer_key, consumer_secret, oath_token, oath_token_secret)

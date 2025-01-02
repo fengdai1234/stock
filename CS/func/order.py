@@ -1,9 +1,14 @@
 
 from requests_oauthlib import OAuth1
-from func.credentials import *
+from func import AccountNumber, Secret
 import requests
 import json
-
+import os
+os.path
+import sys
+sys.path
+from dotenv import load_dotenv
+load_dotenv()
 
 class Order:
     # trad, ind, roth

@@ -29,8 +29,19 @@ def buy_limit(acct,qty,ticker,price,auth):
     return order_res,order_json
 
 
-# POST Sell limit order :
 def sell_limit(acct,qty,ticker,price,auth):
+    """_summary_
+
+    Args:
+        acct (_type_): _description_
+        qty (_type_): _description_
+        ticker (_type_): _description_
+        price (_type_): _description_
+        auth (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     sell_xml=f"""
     <FIXML xmlns="http://www.fixprotocol.org/FIXML-5-0-SP2">
     <Order TmInForce="0" Typ="2" Side="2" Px="{price}" Acct="{acct}">

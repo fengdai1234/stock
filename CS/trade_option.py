@@ -9,7 +9,8 @@ import pandas as pd
 import numpy as np
 from requests_oauthlib import OAuth1
 import xml.etree.ElementTree as et
-from func.credentials import *
+from func import 
+ AccountNumber, Secret*
 from func.order import Order
 from func.orderfunc import  get_order_list, cancel_order
 from func.option import Option

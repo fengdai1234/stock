@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import numpy as np
 from requests_oauthlib import OAuth1
-from func.credentials import *
+from func import  AccountNumber, Secret*
 
 acct = roth
 ticker = 'BABA'

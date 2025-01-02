@@ -7,7 +7,8 @@ import json
 import pandas as pd
 import numpy as np
 from requests_oauthlib import OAuth1
-from func.credentials import *
+from func import 
+ AccountNumber, Secret*
 import xml.etree.ElementTree as et
 from func.orderfunc import buy_limit,get_quotes,get_order_list,cancel_order
 

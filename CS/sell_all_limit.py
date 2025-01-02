@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import numpy as np
 from requests_oauthlib import OAuth1
-from func.credentials import *
+from func import AccountNumber, Secret
 # auth:
 auth = OAuth1(consumer_key, consumer_secret, oath_token, oath_token_secret)
 
